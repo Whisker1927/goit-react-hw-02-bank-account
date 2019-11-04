@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import T from 'prop-types';
 import uuidv1 from 'uuid/v1';
+import Swal from 'sweetalert2';
 import Controls from '../Controls/Controls';
 import Balance from '../Balance/Balance';
 import TransactionHistory from '../TransactionHistory/TransactionHistory';
@@ -32,7 +33,7 @@ export default class Dashboard extends Component {
 
   handleDeposit = amount => {
     if (amount <= 0) {
-      this.notify('Введите сумму для проведения операции!');
+      Swal.fire('Введите сумму для проведения операции!');
       return;
     }
     this.setState(({ transactions, balance }) => {
@@ -50,11 +51,11 @@ export default class Dashboard extends Component {
   };
   handleWithdraw = amount => {
     if (amount <= 0) {
-      alert('Введите сумму для проведения операции!');
+      Swal.fire('Введите сумму для проведения операции!');
       return;
     }
     if (this.state.balance - amount < 0) {
-      alert('На счету недостаточно средств для проведения операции!');
+      Swal.fire('На счету недостаточно средств для проведения операции!');
       return;
     }
     this.setState(({ transactions, balance }) => {
