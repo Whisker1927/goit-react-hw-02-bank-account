@@ -37,13 +37,29 @@ export default class Controls extends Component {
     const { amount } = this.state;
     return (
       <section className={styles.section}>
-        <input type="number" name="amount" className={styles.input}></input>
-        <button type="button" className={styles.button}>
-          Deposit
-        </button>
-        <button type="button" className={styles.button}>
-          Withdraw
-        </button>
+        <form onSubmit={this.handleFormInput}>
+          <input
+            type="number"
+            name="amount"
+            className={styles.input}
+            value={amount}
+            onChange={this.handleInputChange}
+          ></input>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={this.handleDepositButton}
+          >
+            Deposit
+          </button>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={this.handleWithdrawButton}
+          >
+            Withdraw
+          </button>
+        </form>
       </section>
     );
   }

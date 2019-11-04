@@ -22,9 +22,9 @@ const TransactionHistory = ({ transactions }) => {
       <table className={styles.history}>
         <thead>
           <tr>
-            <th>Transaction</th>
-            <th>Amount</th>
-            <th>Date</th>
+            <th className={styles.headline}>Transaction</th>
+            <th className={styles.headline}>Amount</th>
+            <th className={styles.headline}>Date</th>
           </tr>
         </thead>
         <tbody>{renderTransactions()}</tbody>

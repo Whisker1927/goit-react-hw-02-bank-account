@@ -63,6 +63,14 @@ body {
   text-align: center;
 }
 .history {
-  display: flex;
-  justify-content: center;
+  border: 1px solid green;
+  margin: auto;
+}
+.span {
+  padding: 5px 10px;
+  font-weight: bold;
+}
+.headline {
+  padding: 20px;
+  background-color: rgb(255, 248, 220);
 }

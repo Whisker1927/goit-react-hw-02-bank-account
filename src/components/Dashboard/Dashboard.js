@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import T from 'prop-types';
 import uuidv1 from 'uuid/v1';
-import { ToastContainer, toast, Slide } from 'react-toastify';
 import Controls from '../Controls/Controls';
 import Balance from '../Balance/Balance';
 import TransactionHistory from '../TransactionHistory/TransactionHistory';
@@ -12,6 +11,25 @@ export default class Dashboard extends Component {
     transactions: [],
     balance: 0,
   };
+  componentDidMount() {
+    try {
+      const transactions = localStorage.getItem('transactions');
+      const parsedTransactions = JSON.parse(transactions);
+      const { balance } = this.calculateFunds(parsedTransactions);
+      this.setState({
+        transactions: parsedTransactions,
+        balance,
+      });
+    } catch (error) {}
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { transactions } = this.state;
+    if (prevState.transactions.lengt !== transactions.length) {
+      localStorage.setItem('transactions', JSON.stringify(transactions));
+    }
+  }
+
   handleDeposit = amount => {
     if (amount <= 0) {
       this.notify('Введите сумму для проведения операции!');
@@ -20,7 +38,7 @@ export default class Dashboard extends Component {
     this.setState(({ transactions, balance }) => {
       const newStateTransaction = {
         id: uuidv1(),
-        type: 'deposit',
+        type: 'Deposit',
         amount,
         date: new Date().toLocaleString(),
       };
@@ -32,22 +50,22 @@ export default class Dashboard extends Component {
   };
   handleWithdraw = amount => {
     if (amount <= 0) {
-      this.notify('Введите сумму для проведения операции!');
+      alert('Введите сумму для проведения операции!');
       return;
     }
     if (this.state.balance - amount < 0) {
-      this.notify('На счету недостаточно средств для проведения операции!');
+      alert('На счету недостаточно средств для проведения операции!');
       return;
     }
     this.setState(({ transactions, balance }) => {
       const newStateTransaction = {
         id: uuidv1(),
-        type: 'withdrawal',
+        type: 'Withdrawal',
         amount,
         date: new Date().toLocaleString(),
       };
       return {
-        transactions: [...transactions, newTransaction],
+        transactions: [...transactions, newStateTransaction],
         balance: balance - amount,
       };
     });
