@@ -74,24 +74,15 @@ export default class Dashboard extends Component {
   totalTransfers = transactions => {
     return transactions.reduce(
       (acc, transaction) => {
-        const income =
-          transaction.type === 'Deposit'
-            ? acc.income + transaction.amount
-            : acc.income;
-        const expenses =
-          transaction.type === 'Withdrawal'
-            ? acc.expenses + transaction.amount
-            : acc.expenses;
-        const balance = income - expenses;
-
         return {
           ...acc,
-          income,
-          expenses,
-          balance,
+          [transaction.type]: [transaction.type] + transaction.amount,
         };
       },
-      { income: 0, expenses: 0, balance: 0 },
+      {
+        deposit: 0,
+        withdrawal: 0,
+      },
     );
   };
 
