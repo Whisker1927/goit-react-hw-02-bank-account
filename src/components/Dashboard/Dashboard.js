@@ -88,14 +88,13 @@ export default class Dashboard extends Component {
 
   render() {
     const { transactions, balance } = this.state;
-    const { income, expenses } = this.totalTransfers(transactions);
     return (
       <div className="dashboard">
         <Controls
           onDeposit={this.handleDeposit}
           onWithdraw={this.handleWithdraw}
         />
-        <Balance balance={balance} income={income} expenses={expenses} />
+        <Balance balance={balance} transactions={transactions} />
         <TransactionHistory transactions={transactions} />
       </div>
     );
