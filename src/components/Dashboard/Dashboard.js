@@ -39,7 +39,7 @@ export default class Dashboard extends Component {
     this.setState(({ transactions, balance }) => {
       const newStateTransaction = {
         id: uuidv1(),
-        type: 'Deposit',
+        type: 'deposit',
         amount,
         date: new Date().toLocaleString(),
       };
@@ -61,7 +61,7 @@ export default class Dashboard extends Component {
     this.setState(({ transactions, balance }) => {
       const newStateTransaction = {
         id: uuidv1(),
-        type: 'Withdrawal',
+        type: 'withdrawal',
         amount,
         date: new Date().toLocaleString(),
       };
@@ -71,12 +71,14 @@ export default class Dashboard extends Component {
       };
     });
   };
-  totalTransfers = transactions => {
+
+  totalTransfers() {
+    const { transactions } = this.state;
     return transactions.reduce(
       (acc, transaction) => {
         return {
           ...acc,
-          [transaction.type]: [transaction.type] + transaction.amount,
+          [transaction.type]: acc[transaction.type] + transaction.amount,
         };
       },
       {
@@ -84,17 +86,22 @@ export default class Dashboard extends Component {
         withdrawal: 0,
       },
     );
-  };
+  }
 
   render() {
     const { transactions, balance } = this.state;
+    const { deposit, withdrawal } = this.totalTransfers();
     return (
       <div className="dashboard">
         <Controls
           onDeposit={this.handleDeposit}
           onWithdraw={this.handleWithdraw}
         />
-        <Balance balance={balance} transactions={transactions} />
+        <Balance
+          balance={balance}
+          income={Number(deposit)}
+          expenses={Number(withdrawal)}
+        />
         <TransactionHistory transactions={transactions} />
       </div>
     );
